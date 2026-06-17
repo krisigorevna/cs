@@ -1,39 +1,56 @@
-// script.js — интерактив: кнопка + сообщение
-document.addEventListener('DOMContentLoaded', function() {
-  const btn = document.getElementById('neonBtn');
-  const statusMsg = document.getElementById('statusMessage');
+// script.js — лёгкая интерактивность
+document.addEventListener('DOMContentLoaded', () => {
 
-  if (btn && statusMsg) {
-    btn.addEventListener('click', function() {
-      // Неоновый эффект: меняем текст и стиль
-      statusMsg.textContent = '🔥 РАУНД ЗАПУЩЕН · УДАЧИ!';
-      statusMsg.style.color = '#b69eff';
-      statusMsg.style.textShadow = '0 0 20px #7a4cff, 0 0 40px #4a2cbf';
-      
-      // Анимация мигания кнопки (добавим класс)
-      btn.style.boxShadow = '0 0 60px #8a5aff, 0 0 120px #5a2aff';
-      btn.style.borderColor = '#d6c6ff';
-      
-      // Сброс через 2.5 секунды
-      setTimeout(() => {
-        statusMsg.textContent = '⚡ ГОТОВ К СЛЕДУЮЩЕМУ';
-        statusMsg.style.color = '#c7baff';
-        statusMsg.style.textShadow = 'none';
-        btn.style.boxShadow = '0 0 20px rgba(90, 50, 255, 0.3), inset 0 0 20px rgba(130, 80, 255, 0.1)';
-        btn.style.borderColor = '#b18aff';
-      }, 2500);
+    // 1. Кнопки "Играть" / "Начать битву"
+    const playBtns = document.querySelectorAll('.btn-primary');
+    playBtns.forEach(btn => {
+        btn.addEventListener('click', function(e) {
+            e.stopPropagation();
+            // визуальный фидбэк
+            const original = this.textContent;
+            this.textContent = '⚡ ИЩЕМ...';
+            this.style.transform = 'scale(0.96)';
+            setTimeout(() => {
+                this.textContent = original;
+                this.style.transform = '';
+            }, 1200);
+        });
     });
 
-    // Дополнительный эффект: при наведении на блоки (лёгкое свечение)
-    const cards = document.querySelectorAll('.glass-card');
+    // 2. Кнопки "Войти" / "Смотреть трейлер" / "Apply" (для примера)
+    const outlineBtns = document.querySelectorAll('.btn-outline');
+    outlineBtns.forEach(btn => {
+        btn.addEventListener('click', function() {
+            alert('🔮 Функция в разработке. Демо-режим.');
+        });
+    });
+
+    // 3. hover-эффект для карточек (уже в css, но добавим лёгкий звук)
+    const cards = document.querySelectorAll('.block-card');
     cards.forEach(card => {
-      card.addEventListener('mouseenter', () => {
-        card.style.transition = '0.2s';
-        card.style.boxShadow = '0 20px 50px rgba(90, 50, 255, 0.3), 0 0 0 1px rgba(180, 140, 255, 0.3)';
-      });
-      card.addEventListener('mouseleave', () => {
-        card.style.boxShadow = '0 20px 40px rgba(0, 0, 0, 0.7), 0 0 0 1px rgba(160, 100, 255, 0.15)';
-      });
+        card.addEventListener('mouseenter', () => {
+            // ничего не делаем, css уже обрабатывает
+        });
     });
-  }
+
+    // 4. Навигация — плавный скролл (заглушка)
+    const navLinks = document.querySelectorAll('nav a');
+    navLinks.forEach(link => {
+        link.addEventListener('click', function(e) {
+            e.preventDefault();
+            this.style.color = '#b69eff';
+            setTimeout(() => { this.style.color = ''; }, 300);
+        });
+    });
+
+    // 5. Эффект загрузки — мигание лого (просто для атмосферы)
+    const logo = document.querySelector('.logo');
+    if (logo) {
+        setInterval(() => {
+            logo.style.opacity = '0.9';
+            setTimeout(() => { logo.style.opacity = '1'; }, 100);
+        }, 3000);
+    }
+
+    console.log('🔥 CS:NEON загружен!');
 });
